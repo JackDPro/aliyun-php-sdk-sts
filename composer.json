@@ -15,7 +15,7 @@
     },
     "autoload":{
         "psr-4": {
-            "Sts":"skd/Sts/Request/V20150401"
+            "Sts\\":"skd/Sts/Request/V20150401"
         }
     }
 }
