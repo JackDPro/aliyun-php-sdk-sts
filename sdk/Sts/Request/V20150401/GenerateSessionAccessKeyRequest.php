@@ -19,7 +19,9 @@
  */
 namespace Sts\Request\V20150401;
 
-class GenerateSessionAccessKeyRequest extends \RpcAcsRequest
+use Aliyun\Core\RpcAcsRequest;
+
+class GenerateSessionAccessKeyRequest extends RpcAcsRequest
 {
 	function  __construct()
 	{

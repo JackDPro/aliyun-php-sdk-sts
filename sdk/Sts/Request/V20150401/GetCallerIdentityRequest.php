@@ -19,7 +19,9 @@
  */
 namespace Sts\Request\V20150401;
 
-class GetCallerIdentityRequest extends \RpcAcsRequest
+use Aliyun\Core\RpcAcsRequest;
+
+class GetCallerIdentityRequest extends RpcAcsRequest
 {
 	function  __construct()
 	{

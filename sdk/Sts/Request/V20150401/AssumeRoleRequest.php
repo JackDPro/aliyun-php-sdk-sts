@@ -19,7 +19,9 @@
  */
 namespace Sts\Request\V20150401;
 
-class AssumeRoleRequest extends \RpcAcsRequest
+use Aliyun\Core\RpcAcsRequest;
+
+class AssumeRoleRequest extends RpcAcsRequest
 {
 	function  __construct()
 	{
