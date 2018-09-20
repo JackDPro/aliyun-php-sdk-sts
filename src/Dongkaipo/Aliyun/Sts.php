@@ -8,6 +8,7 @@ use Aliyun\Core\Regions\Endpoint;
 use Aliyun\Core\Regions\EndpointProvider;
 use Aliyun\Core\Regions\ProductDomain;
 use Sts\Request\V20150401\AssumeRoleRequest;
+use Exception;
 
 class Sts
 {
@@ -17,8 +18,7 @@ class Sts
     ];
 
     const POLICY_ALL = '{"Statement":[{"Action":["oss:*"],"Effect": "Allow","Resource": ["acs:oss:*"]}],"Version": "1"}';
-    const POLICY_READ = '{"Statement":[{"Action":["oss:GetObject","oss:ListObjects"],"Effect":"Allow","Resource":["acs:oss:*:*:$BUCKET_NAME/*","acs:oss:*:*:$BUCKET_NAME"]}],"Version":"1"}';
-    const POLICY_WRITE = '{"Statement":[{"Action":["oss:GetObject","oss:PutObject","oss:DeleteObject","oss:ListParts","oss:AbortMultipartUpload","oss:ListObjects"],"Effect":"Allow","Resource":["acs:oss:*:*:$BUCKET_NAME/*","acs:oss:*:*:$BUCKET_NAME"]}],"Version":"1"}';
+    const POLICY_READ = '{"Statement":[{"Action":["oss:Get*","oss:List*"],"Effect":"Allow","Resource":"*"}],"Version":"1"}';
 
     public function __construct()
     {
@@ -60,10 +60,11 @@ class Sts
      * @param $accessKeyID
      * @param $accessKeySecret
      * @param $policy
-     * @param $roleArn
+     * @param $roleArn acs:ram::1624292675336058:role/aliyunossadminrole' find at https://ram.console.aliyun.com/#/role/list
      * @param $clientName
      * @param int $tokenExpire
-     * @return false|string
+     * @return array
+     * @throws Exception
      */
     public function requestToken($regionId, $accessKeyID, $accessKeySecret, $policy, $roleArn, $clientName, $tokenExpire = 3600)
     {
@@ -75,23 +76,17 @@ class Sts
         $request->setRoleArn($roleArn);
         $request->setPolicy($policy);
         $request->setDurationSeconds($tokenExpire);
-        $response = $client->doAction($request);
-
-        $rows = array();
-        $body = $response->getBody();
-        $content = json_decode($body);
-        $rows['status'] = $response->getStatus();
-        if ($response->getStatus() == 200) {
-            $rows['AccessKeyId'] = $content->Credentials->AccessKeyId;
-            $rows['AccessKeySecret'] = $content->Credentials->AccessKeySecret;
-            $rows['Expiration'] = $content->Credentials->Expiration;
-            $rows['SecurityToken'] = $content->Credentials->SecurityToken;
-        } else {
-            $rows['AccessKeyId'] = "";
-            $rows['AccessKeySecret'] = "";
-            $rows['Expiration'] = "";
-            $rows['SecurityToken'] = "";
+        try {
+            $response = $client->getAcsResponse($request);
+        } catch (Exception $exception) {
+            throw $exception;
         }
-        return json_encode($rows);
+
+        $rows = [];
+        $rows['AccessKeyId'] = $response->Credentials->AccessKeyId;
+        $rows['AccessKeySecret'] = $response->Credentials->AccessKeySecret;
+        $rows['Expiration'] = $response->Credentials->Expiration;
+        $rows['SecurityToken'] = $response->Credentials->SecurityToken;
+        return $rows;
     }
 }
