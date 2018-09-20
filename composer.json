@@ -1,0 +1,21 @@
+{
+    "name": "dongkaipo/aliyun-php-sdk-sts",
+    "description": "Aliyun php sdk sts composer support",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jack",
+            "email": "dongkaipo@126.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload":{
+        "psr-4": {
+            "Sts":"skd/Sts/Request/V20150401"
+        }
+    }
+}
