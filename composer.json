@@ -1,21 +1,27 @@
 {
-    "name": "dongkaipo/aliyun-php-sdk-sts",
-    "description": "Aliyun php sdk sts composer support",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jack",
-            "email": "dongkaipo@126.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=7.0"
-    },
-    "autoload":{
-        "psr-4": {
-            "Sts\\":"skd/Sts/Request/V20150401"
-        }
+  "name": "dongkaipo/aliyun-php-sdk-sts",
+  "description": "Aliyun php sdk sts composer support",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jack",
+      "email": "dongkaipo@126.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0",
+    "ext-openssl": "*",
+    "dongkaipo/aliyun-php-sdk-core": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sts\\": "sdk/Sts",
+      "Dongkaipo\\": "src/Dongkaipo"
+    }
+  }
 }
