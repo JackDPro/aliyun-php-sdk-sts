@@ -36,5 +36,5 @@ try {
 
 ## Aliyun Document
 
-[Aliyun STS Document](https://help.aliyun.com/document_detail/31935.html)
-[roleArn](https://ram.console.aliyun.com/#/role/list)
+* [Aliyun STS Document](https://help.aliyun.com/document_detail/31935.html)
+* [roleArn](https://ram.console.aliyun.com/#/role/list)
