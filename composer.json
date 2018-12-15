@@ -21,7 +21,7 @@
   "autoload": {
     "psr-4": {
       "Sts\\": "sdk/Sts",
-      "Dongkaipo\\": "src/Dongkaipo"
+      "Dongkaipo\\": "src"
     }
   }
 }
