@@ -58,7 +58,7 @@ class Client
         $conditions[] = $condition;
 
         # 表示用户上传的数据，必须是以$dir开始，不然上传会失败，这一步不是必须项，只是为了安全起见，防止用户通过policy上传到别人的目录。
-        $start = array(0 => 'starts-with', 1 => '$key', 2 => $dir);
+        $start = array(0 => 'starts-with', 1 => $this->accessKeySecret, 2 => $dir);
         $conditions[] = $start;
 
         # 进行签名
@@ -66,11 +66,11 @@ class Client
         $policy = json_encode($arr);
         $base64_policy = base64_encode($policy);
         $string_to_sign = $base64_policy;
-        $signature = base64_encode(hash_hmac('sha1', $string_to_sign, $key, true));
+        $signature = base64_encode(hash_hmac('sha1', $string_to_sign, $this->accessKeySecret, true));
 
         # 拼凑结果
         $response = array();
-        $response['accessid'] = $id;
+        $response['accessid'] = $this->accessKeyId;
         $response['host'] = $host;
         $response['policy'] = $base64_policy;
         $response['signature'] = $signature;
