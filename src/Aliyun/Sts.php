@@ -20,7 +20,7 @@ class Sts
     const POLICY_ALL = '{"Statement":[{"Action":["oss:*"],"Effect": "Allow","Resource": ["acs:oss:*"]}],"Version": "1"}';
     const POLICY_READ = '{"Statement":[{"Action":["oss:Get*","oss:List*"],"Effect":"Allow","Resource":"*"}],"Version":"1"}';
 
-    public function __construct()
+    public function __construct($region = null)
     {
         $productDomains = array(
             new ProductDomain("Ecs", "ecs.aliyuncs.com"),
@@ -46,7 +46,7 @@ class Sts
             new ProductDomain("Ubsms", "ubsms.aliyuncs.com"),
             new ProductDomain("Ubsms-inner", "ubsms-inner.aliyuncs.com")
         );
-        $endpoint = new Endpoint("cn-beijing", $this->regions, $productDomains);
+        $endpoint = new Endpoint($region ? $region : "cn-beijing", $this->regions, $productDomains);
         $endpoints = array($endpoint);
         EndpointProvider::setEndpoints($endpoints);
 
