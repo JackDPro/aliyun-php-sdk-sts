@@ -9,6 +9,7 @@ use Aliyun\Core\Regions\EndpointProvider;
 use Aliyun\Core\Regions\ProductDomain;
 use Sts\Request\V20150401\AssumeRoleRequest;
 use Exception;
+use \Datetime;
 
 class Client
 {
