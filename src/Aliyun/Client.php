@@ -32,7 +32,7 @@ class Client
         $this->accessKeySecret = $accessKeySecret;
     }
 
-    public function sign($region, $bucket, $dir, $callbackUrl = null, $limitSize = 1048576000)
+    public function sign($region, $bucket, $dir, $expire = 30, $callbackUrl = null, $limitSize = 1048576000)
     {
         # 拼 oss 上传 url
         $host = 'https://' . $bucket . '.oss-' . $region . '.aliyuncs.com';
@@ -49,7 +49,6 @@ class Client
 
         # 设置有效时间
         $now = time();
-        $expire = 30;  //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问。
         $end = $now + $expire;
         $expiration = $this->gmt_iso8601($end);
 
@@ -58,7 +57,7 @@ class Client
         $conditions[] = $condition;
 
         # 表示用户上传的数据，必须是以$dir开始，不然上传会失败，这一步不是必须项，只是为了安全起见，防止用户通过policy上传到别人的目录。
-        $start = array(0 => 'starts-with', 1 => $this->accessKeySecret, 2 => $dir);
+        $start = array(0 => 'starts-with', 1 => '$key', 2 => $dir);
         $conditions[] = $start;
 
         # 进行签名
