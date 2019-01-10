@@ -15,7 +15,7 @@ class Client
     private $accessKeyId = '';
     private $accessKeySecret = '';
 
-    function gmt_iso8601($time)
+    public function gmt_iso8601($time)
     {
         $dtStr = date("c", $time);
         $mydatetime = new DateTime($dtStr);
@@ -50,7 +50,7 @@ class Client
         $now = time();
         $expire = 30;  //设置该policy超时时间是10s. 即这个policy过了这个有效时间，将不能访问。
         $end = $now + $expire;
-        $expiration = gmt_iso8601($end);
+        $expiration = $this->gmt_iso8601($end);
 
         # 设置文件大小限制
         $condition = array(0 => 'content-length-range', 1 => 0, 2 => 1048576000);
