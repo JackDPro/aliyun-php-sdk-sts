@@ -66,7 +66,7 @@ class Sts
      * @return array
      * @throws Exception
      */
-    public function requestToken($regionId, $accessKeyID, $accessKeySecret, $policy, $roleArn, $clientName, $tokenExpire = 3600)
+    public function requestToken($regionId, $accessKeyID, $accessKeySecret, $policy, $roleArn, $clientName, $tokenExpire = 3600, $roleSessionName = null)
     {
         $iClientProfile = DefaultProfile::getProfile($regionId, $accessKeyID, $accessKeySecret);
         $client = new DefaultAcsClient($iClientProfile);
@@ -75,6 +75,9 @@ class Sts
         $request->setRoleSessionName($clientName);
         $request->setRoleArn($roleArn);
         $request->setPolicy($policy);
+        if ($roleSessionName) {
+            $request->setRoleSessionName($roleSessionName);
+        }
         $request->setDurationSeconds($tokenExpire);
         try {
             $response = $client->getAcsResponse($request);
